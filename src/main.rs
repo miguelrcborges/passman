@@ -7,7 +7,7 @@ use arboard::Clipboard;
 fn main() {
     let args: Vec<String> = env::args().collect();
     match args[1].as_str() {
-        "new" => generate_password(args[1].clone(), args[0].clone()),
+        "new" => generate_password(args[2].clone(), args[0].clone()),
         "get" => get_password(args[2].clone(), args[0].clone()),
         &_ => println!("Command not found."),
     }
@@ -29,7 +29,7 @@ fn generate_password(value: String, mut path: String) {
     let mut file = OpenOptions::new().append(true).open(path).expect("cannot open file");
     file.write_all(format!("{} {}\n", value, password).as_bytes()).expect("write failed");
     let mut clipboard = Clipboard::new().unwrap();
-    clipboard.set_text(value).unwrap();
+    clipboard.set_text(password).unwrap();
     println!("Password is in your clipboard.");
 }
 
